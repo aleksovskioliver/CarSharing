@@ -1,9 +1,7 @@
 package com.sorsix.CarSharing.domain
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import java.sql.Driver
+import javax.persistence.*
 
 @Entity
 data class Vehicle(
@@ -12,5 +10,7 @@ data class Vehicle(
     val id: Long,
     val model: String,
     val make: String,
-    val seats: Int
+    val seats: Int,
+    @OneToOne
+    val driver: User
 )

@@ -3,8 +3,8 @@ package com.sorsix.CarSharing.domain
 import javax.persistence.*
 
 @Entity
-@Table(name = "drivers")
-data class Driver(
+@Table(name = "users")
+data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
@@ -13,8 +13,6 @@ data class Driver(
     val phoneNumber: String,
     val email: String,
     val password: String,
-    @OneToOne
-    val vehicle: Vehicle,
     @ManyToMany
     val reservation: MutableList<Reservation>? = null
 )

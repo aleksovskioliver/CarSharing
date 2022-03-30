@@ -9,9 +9,9 @@ data class Reservation(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     @ManyToOne
-    val driver: Driver,
+    val driver: User,
     @ManyToMany(mappedBy = "reservation")
-    val customers: MutableList<Customer>? = null,
+    val customers: MutableList<User>? = null,
     val startTime: LocalDateTime,
     val endTime: LocalDateTime,
     @OneToOne
