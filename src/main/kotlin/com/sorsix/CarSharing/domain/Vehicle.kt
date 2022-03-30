@@ -1,6 +1,5 @@
 package com.sorsix.CarSharing.domain
 
-import java.sql.Driver
 import javax.persistence.*
 
 @Entity

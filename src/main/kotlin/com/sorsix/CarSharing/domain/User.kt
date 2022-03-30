@@ -13,6 +13,8 @@ data class User(
     val phoneNumber: String,
     val email: String,
     val password: String,
+    @Enumerated(EnumType.STRING)
+    val role: Role,
     @ManyToMany
     val reservation: MutableList<Reservation>? = null
 )
