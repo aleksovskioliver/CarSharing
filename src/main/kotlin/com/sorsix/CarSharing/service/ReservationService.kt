@@ -1,39 +1,37 @@
 package com.sorsix.CarSharing.service
 
+import com.sorsix.CarSharing.api.request.CreateReservationRequest
 import com.sorsix.CarSharing.domain.*
+import com.sorsix.CarSharing.repository.LocationRepository
 import com.sorsix.CarSharing.repository.UserRepository
 import com.sorsix.CarSharing.repository.ReservationRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.persistence.*
 
 @Service
 class ReservationService(
     val reservationRepository: ReservationRepository,
-    val userRepository: UserRepository
+    val userRepository: UserRepository,
+    val locationRepository: LocationRepository
 ) {
+    var formatter = DateTimeFormatter.ofPattern("d/MM/yyyy HH:mm")
 
     fun getReservations(): MutableList<Reservation> {
         return reservationRepository.findAll()
     }
 
-    fun createReservation(
-        driverId: Long,
-        startTime: LocalDateTime,
-        endTime: LocalDateTime,
-        pickupLocation: Location,
-        dropoffLocation: Location,
-        tripCost: Int,
-        availableSeats: Int
-    ): Reservation {
-        val driver: User = userRepository.findByIdOrNull(driverId) ?: throw Exception()
-        val reservation: Reservation = Reservation(
-            id = 0, driver, startTime = startTime,
-            endTime = endTime, pickupLocation = pickupLocation, dropoffLocation = dropoffLocation,
-            tripCost = tripCost, availableSeats = availableSeats, status = ReservationStatus.ACTIVE
-        )
-        return reservationRepository.save(reservation)
+    fun createReservation(newReservationRequest: CreateReservationRequest): Reservation {
+        val driver = userRepository.findByIdOrNull(newReservationRequest.driverId) ?: throw Exception()
+        val startTime = LocalDateTime.parse(newReservationRequest.startTime,formatter)
+        val endTime = LocalDateTime.parse(newReservationRequest.endTime,formatter)
+        val pickupLocation = locationRepository.findByIdOrNull(newReservationRequest.pickupLocationId) ?: throw Exception()
+        val dropoffLocation = locationRepository.findByIdOrNull(newReservationRequest.dropoffLocationId) ?: throw Exception()
+        return reservationRepository.save(Reservation(0,driver,startTime = startTime,endTime = endTime,
+            pickupLocation=pickupLocation,dropoffLocation = dropoffLocation,availableSeats = newReservationRequest.availableSeats,
+            status = ReservationStatus.ACTIVE,tripCost = newReservationRequest.tripCost))
     }
 
     fun addCustomer(
