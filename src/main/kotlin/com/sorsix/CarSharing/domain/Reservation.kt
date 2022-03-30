@@ -11,7 +11,7 @@ data class Reservation(
     @ManyToOne
     val driver: Driver,
     @ManyToMany(mappedBy = "reservation")
-    val customers: List<Customer>,
+    val customers: MutableList<Customer>? = null,
     val startTime: LocalDateTime,
     val endTime: LocalDateTime,
     @OneToOne

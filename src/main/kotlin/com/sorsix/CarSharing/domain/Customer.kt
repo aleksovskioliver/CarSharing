@@ -14,6 +14,5 @@ data class Customer(
     val email: String,
     val password: String,
     @ManyToMany
-    val reservation: List<Reservation> = mutableListOf()
-) {
-}
+    val reservation: MutableList<Reservation>? = null
+)

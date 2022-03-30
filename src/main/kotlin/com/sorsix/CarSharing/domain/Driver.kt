@@ -16,5 +16,5 @@ data class Driver(
     @OneToOne
     val vehicle: Vehicle,
     @ManyToMany
-    val reservation: List<Reservation>
+    val reservation: MutableList<Reservation>? = null
 )
