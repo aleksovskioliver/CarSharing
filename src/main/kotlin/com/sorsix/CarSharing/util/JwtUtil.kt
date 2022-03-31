@@ -51,5 +51,4 @@ class JwtUtil {
         val username = extractUsername(token)
         return username == userDetails.username && !isTokenExpired(token)
     }
-
 }

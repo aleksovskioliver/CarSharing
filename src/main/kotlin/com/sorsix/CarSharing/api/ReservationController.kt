@@ -17,7 +17,7 @@ class ReservationController(private val reservationService: ReservationService) 
         reservationService.createReservation(newReservation)
     }
 
-    @PostMapping("/addReservation")
+    @PostMapping("/addCustomer")
     fun addCustomer(@RequestBody addNewCustomer: addCustomerToReservation){
         reservationService.addCustomerToReservation(addNewCustomer)
     }

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController
 class LocationController(private val locationService: LocationService) {
 
     @PostMapping("/create")
-    fun create(@RequestBody newLocation: CreateNewLocation){
-        locationService.create(newLocation)
+    fun create(@RequestBody newLocations: List<CreateNewLocation>){
+        newLocations.map {
+            newLocation -> locationService.create(newLocation)
+        }
     }
 }

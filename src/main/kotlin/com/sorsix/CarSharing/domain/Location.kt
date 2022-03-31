@@ -8,10 +8,8 @@ import javax.persistence.Id
 @Entity
 data class Location(
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    val id: Long,
-    val address: String,
     val city: String,
-    val country: String,
-    val province: String
+    val lat: Double,
+    val lng: Double,
+    val country: String
 )

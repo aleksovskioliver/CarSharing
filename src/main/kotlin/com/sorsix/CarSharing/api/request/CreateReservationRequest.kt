@@ -4,8 +4,8 @@ data class CreateReservationRequest(
     val driverId: Long,
     val startTime: String,
     val endTime: String,
-    val pickupLocationId: Long,
-    val dropoffLocationId: Long,
+    val pickupLocation: String,
+    val dropoutLocation: String,
     val tripCost: Int,
     val availableSeats: Int
 )
