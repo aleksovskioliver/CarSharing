@@ -28,7 +28,7 @@ class SecurityConfig(val myUsersService: MyUsersService) : WebSecurityConfigurer
     override fun configure(http: HttpSecurity?) {
         http?.cors()?.and()?.csrf()?.disable()
             ?.authorizeRequests()
-            ?.antMatchers("/api/reservation/create")?.hasAnyRole("ROLE_DRIVER")
+            ?.antMatchers("/api/reservation/create")?.permitAll() //.hasAnyRole("ROLE_DRIVER")
             ?.antMatchers("/api/vehicle/create")?.permitAll()
             ?.antMatchers("/api/user/create")?.permitAll()
             ?.antMatchers("api/location/create")?.permitAll()
@@ -44,5 +44,4 @@ class SecurityConfig(val myUsersService: MyUsersService) : WebSecurityConfigurer
     override fun authenticationManagerBean(): AuthenticationManager {
         return super.authenticationManagerBean()
     }
-
 }

@@ -10,8 +10,8 @@ data class Reservation(
     val id: Long,
     @ManyToOne
     val driver: User,
-    @ManyToMany(mappedBy = "reservation")
-    val customers: MutableList<User>? = null,
+    @ManyToMany
+    val customers: MutableList<User>,
     val startTime: LocalDateTime,
     val endTime: LocalDateTime,
     @OneToOne

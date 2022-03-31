@@ -1,6 +1,7 @@
 package com.sorsix.CarSharing.service
 
 import com.sorsix.CarSharing.api.request.CreateReservationRequest
+import com.sorsix.CarSharing.api.request.addCustomerToReservation
 import com.sorsix.CarSharing.domain.*
 import com.sorsix.CarSharing.repository.LocationRepository
 import com.sorsix.CarSharing.repository.UserRepository
@@ -29,40 +30,27 @@ class ReservationService(
         val endTime = LocalDateTime.parse(newReservationRequest.endTime,formatter)
         val pickupLocation = locationRepository.findByIdOrNull(newReservationRequest.pickupLocationId) ?: throw Exception()
         val dropoffLocation = locationRepository.findByIdOrNull(newReservationRequest.dropoffLocationId) ?: throw Exception()
-        return reservationRepository.save(Reservation(0,driver,startTime = startTime,endTime = endTime,
+        return reservationRepository.save(Reservation(0,driver,customers = mutableListOf<User>(),startTime = startTime,endTime = endTime,
             pickupLocation=pickupLocation,dropoffLocation = dropoffLocation,availableSeats = newReservationRequest.availableSeats,
             status = ReservationStatus.ACTIVE,tripCost = newReservationRequest.tripCost))
     }
 
-    fun addCustomer(
-        customerId: Long,
-        reservationId: Long
-    ): Reservation {
-        val customer: User = userRepository.findByIdOrNull(customerId) ?: throw Exception()
-        return updateReservation(reservationId,customer)
+    fun addCustomerToReservation(addNewCustomer: addCustomerToReservation): Reservation {
+        val reservation = reservationRepository.findByIdOrNull(addNewCustomer.reservationId) ?: throw Exception()
+        val customer = userRepository.findByIdOrNull(addNewCustomer.customerId) ?: throw Exception()
+        val reservationList = reservation.customers
+        reservationList.add(customer)
+        return reservationRepository.save(Reservation(
+            reservation.id,
+            reservation.driver,
+            reservationList,
+            reservation.startTime,
+            reservation.endTime,
+            reservation.pickupLocation,
+            reservation.dropoffLocation,
+            reservation.tripCost,
+            reservation.status,
+            reservation.availableSeats
+        ))
     }
-
-    fun updateReservation(
-        reservationId: Long,
-        customer: User
-    ):Reservation {
-        val reservation: Reservation = reservationRepository.findByIdOrNull(reservationId) ?: throw Exception()
-        val customerList: MutableList<User> = reservation.customers ?: mutableListOf()
-        customerList.add(customer)
-        return reservationRepository.save(reservation).let { result ->
-            Reservation(
-                result.id,
-                result.driver,
-                customerList,
-                result.startTime,
-                result.endTime,
-                result.pickupLocation,
-                result.dropoffLocation,
-                result.tripCost,
-                result.status,
-                result.availableSeats-1
-            )
-        }
-    }
-
 }

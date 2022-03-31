@@ -5,5 +5,4 @@ data class CreateVehicleRequest(
     val make: String,
     val seats: Int,
     val driverId: Long
-) {
-}
+)

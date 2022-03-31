@@ -16,7 +16,6 @@ data class User(
     val password: String,
     @Enumerated(EnumType.STRING)
     val role: Role,
-    @ManyToMany
-    @JsonIgnore
+    @ManyToMany(mappedBy = "customers")
     val reservation: MutableList<Reservation>? = null
 )

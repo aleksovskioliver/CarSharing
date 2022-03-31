@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.streams.toList
 
 @Service
 class JwtUtil {
