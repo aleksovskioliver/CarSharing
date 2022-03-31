@@ -35,7 +35,7 @@ class JwtUtil {
 
     fun generateToken(userDetails: UserDetails): String {
         val claims: MutableMap<String, Any> = HashMap()
-        val roles: List<String> = userDetails.authorities.stream().map { it -> it.authority }.toList()
+        val roles: List<String> = userDetails.authorities.stream().map { it.authority }.toList()
         claims["roles"] = roles
         return createToken(claims, userDetails.username)
     }

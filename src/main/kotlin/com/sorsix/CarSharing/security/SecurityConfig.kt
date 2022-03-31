@@ -4,6 +4,7 @@ import com.sorsix.CarSharing.service.MyUsersService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
@@ -28,14 +29,20 @@ class SecurityConfig(val myUsersService: MyUsersService) : WebSecurityConfigurer
         http?.cors()?.and()?.csrf()?.disable()
             ?.authorizeRequests()
             ?.antMatchers("/api/reservation/create")?.hasAnyRole("ROLE_DRIVER")
-            ?.antMatchers("/api/vehicle/create")?.hasAnyRole("ROLE_DRIVER")
+            ?.antMatchers("/api/vehicle/create")?.permitAll()
             ?.antMatchers("/api/user/create")?.permitAll()
-            ?.antMatchers("api/location/create")?.hasAnyRole("ROLE_DRIVER", "ROLE_CUSTOMER")
+            ?.antMatchers("api/location/create")?.permitAll()
+            ?.antMatchers("/authenticate")?.permitAll()
     }
 
     @Bean
     fun getPasswordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder(10)
+    }
+
+    @Bean
+    override fun authenticationManagerBean(): AuthenticationManager {
+        return super.authenticationManagerBean()
     }
 
 }
