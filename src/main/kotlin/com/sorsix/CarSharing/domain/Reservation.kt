@@ -17,7 +17,7 @@ data class Reservation(
     @OneToOne
     val pickupLocation: Location,
     @OneToOne
-    val dropoffLocation: Location,
+    val dropoutLocation: Location,
     val tripCost: Int,
     @Enumerated(value = EnumType.STRING)
     val status: ReservationStatus,

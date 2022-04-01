@@ -36,7 +36,7 @@ class ReservationService(
         val startTime = LocalDateTime.parse(newReservationRequest.startTime, formatter)
         val endTime = LocalDateTime.parse(newReservationRequest.endTime, formatter)
         val pickupLocation = locationRepository.findByCity(newReservationRequest.pickupLocation)
-        val dropoffLocation = locationRepository.findByCity(newReservationRequest.dropoutLocation)
+        val dropoutLocation = locationRepository.findByCity(newReservationRequest.dropoutLocation)
         return reservationRepository.save(
             Reservation(
                 0,
@@ -45,7 +45,7 @@ class ReservationService(
                 startTime = startTime,
                 endTime = endTime,
                 pickupLocation = pickupLocation,
-                dropoffLocation = dropoffLocation,
+                dropoutLocation = dropoutLocation,
                 availableSeats = newReservationRequest.availableSeats,
                 status = ReservationStatus.ACTIVE,
                 tripCost = newReservationRequest.tripCost
@@ -66,7 +66,7 @@ class ReservationService(
                 reservation.startTime,
                 reservation.endTime,
                 reservation.pickupLocation,
-                reservation.dropoffLocation,
+                reservation.dropoutLocation,
                 reservation.tripCost,
                 reservation.status,
                 reservation.availableSeats - 1

@@ -34,6 +34,7 @@ class SecurityConfig(val myUsersService: MyUsersService, val jwtRequestFilter: J
             ?.authorizeRequests()
             ?.antMatchers("/api/reservation/create")?.hasAnyRole("DRIVER")
             ?.antMatchers("/api/vehicle/create")?.hasAnyRole("DRIVER")
+            ?.antMatchers("/api/reservation/addCustomer")?.hasAnyRole("DRIVER","CUSTOMER")
             ?.antMatchers("/api/user/create")?.permitAll()
             ?.antMatchers("/api/location/create")?.permitAll()
             ?.antMatchers("/authenticate")?.permitAll()
